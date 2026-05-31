@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\WebSiteHost</_PublishTargetUrl>
+    <History>True|2025-11-23T14:04:33.3447510Z||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=DESKTOP-639DJ8C\SQLEXPRESS%3bDatabase=AddressBookDB%3bTrusted_Connection=True%3bEncrypt=False%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

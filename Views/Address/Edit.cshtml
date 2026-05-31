@@ -1,0 +1,112 @@
+﻿@model AddressBookApp.UIW.VM.AddressViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+<style>
+    /* Make the datepicker icon gold */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: brightness(0) saturate(100%) invert(77%) sepia(46%) saturate(749%) hue-rotate(1deg) brightness(103%) contrast(89%);
+        opacity: 1;
+    }
+</style>
+<div class="max-w-3xl mx-auto px-6 pt-20 pb-10 reveal">
+
+    <div class="neumo p-8 reveal">
+
+        <h2 class="text-3xl font-bold gold-text mb-6 reveal">
+            Edit Employee
+        </h2>
+
+        <form asp-action="Edit" method="post" class="grid grid-cols-2 gap-6">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="reveal">
+                <label class="text-sm muted">Full Name</label>
+                <input asp-for="FullName" class="input-dark" />
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">Phone</label>
+                <input asp-for="Phone" class="input-dark" />
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">Email</label>
+                <input asp-for="Email" class="input-dark" />
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">Gender</label>
+                <select asp-for="Gender" class="input-dark">
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">Department</label>
+                <input asp-for="Department" class="input-dark" />
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">Status</label>
+                <select asp-for="Status" class="input-dark">
+                    <option>Active</option>
+                    <option>Inactive</option>
+                    <option>On Leave</option>
+                </select>
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">Skills</label>
+                <input asp-for="Skills" class="input-dark" />
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">DOB</label>
+                <input asp-for="DOB" type="date" class="input-dark" />
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">Age</label>
+                <input asp-for="Age" class="input-dark" />
+            </div>
+
+            <div class="reveal">
+                <label class="text-sm muted">City</label>
+                <input asp-for="City" class="input-dark" />
+            </div>
+
+            <div class="col-span-2 reveal">
+                <label class="text-sm muted">Address</label>
+                <textarea asp-for="Address" class="input-dark" rows="3"></textarea>
+            </div>
+
+            <div class="col-span-2 flex gap-4 mt-8 reveal">
+                <button type="submit" class="btn-gold">Save</button>
+                <a href="/Address" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        gsap.utils.toArray(".reveal").forEach((el, i) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 35,
+                duration: 0.7,
+                ease: "power3.out",
+                delay: i * 0.05
+            });
+        });
+    </script>
+}

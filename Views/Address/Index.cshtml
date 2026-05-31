@@ -1,0 +1,322 @@
+﻿@model List<AddressBookApp.UIW.VM.AddressViewModel>
+
+@{
+    ViewData["title"] = "Dashboard";
+    // PREPARE KPI DATA
+    var total = Model.Count;
+    var active = Model.Count(x => x.Status == "Active");
+    var inactive = Model.Count(x => x.Status == "Inactive");
+    var onLeave = Model.Count(x => x.Status == "On Leave");
+
+    var male = Model.Count(x => x.Gender == "Male");
+    var female = Model.Count(x => x.Gender == "Female");
+
+    var statusActive = active;
+    var statusInactive = inactive;
+    var statusLeave = onLeave;
+}
+
+<!-- PAGE HEADER -->
+<section class="min-h-[40vh] flex items-center reveal">
+    <div style="max-width:1200px; margin:auto; padding:0 30px;">
+
+        <h1 class="text-5xl font-bold gold-text hero-title">Employee Directory</h1>
+
+        <p class="mt-4 text-lg muted max-w-xl hero-subtitle">
+            Meet the people who power the company.
+        </p>
+
+        <a href="/Address/Create" class="btn-gold mt-6 inline-block">
+            Add New Employee
+        </a>
+
+    </div>
+</section>
+
+<!-- KPI CARDS -->
+<section style="padding: 20px 0;">
+    <div style="max-width:1200px; margin:auto; padding:0 30px;">
+
+        <div style="
+            display:grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap:20px;
+        " class="reveal">
+
+            <!-- KPI -->
+            <div class="neumo p-6 text-center">
+                <div class="text-4xl font-bold gold-text counter" data-target="@total">0</div>
+                <div class="muted text-sm mt-2">Total Employees</div>
+            </div>
+
+            <div class="neumo p-6 text-center">
+                <div class="text-4xl font-bold gold-text counter" data-target="@active">0</div>
+                <div class="muted text-sm mt-2">Active</div>
+            </div>
+
+            <div class="neumo p-6 text-center">
+                <div class="text-4xl font-bold gold-text counter" data-target="@inactive">0</div>
+                <div class="muted text-sm mt-2">Inactive</div>
+            </div>
+
+            <div class="neumo p-6 text-center">
+                <div class="text-4xl font-bold gold-text counter" data-target="@onLeave">0</div>
+                <div class="muted text-sm mt-2">On Leave</div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- DONUT CHARTS -->
+<section style="padding: 40px 0;">
+    <div style="max-width:1200px; margin:auto; padding:0 30px;">
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;" class="reveal">
+
+            <!-- GENDER -->
+            <div class="neumo p-6 reveal"
+                 style="
+        width: 100%;
+        max-width: 420px;
+        min-height: 420px;
+        margin: auto;
+        border-radius: 16px;
+     ">
+                <h3 class="gold-text text-lg mb-2">Gender Distribution</h3>
+                <canvas id="genderChart" width="420" height="420"></canvas>
+            </div>
+
+            <div class="neumo p-6 reveal"
+                 style="
+        width: 100%;
+        max-width: 420px;
+        min-height: 420px;
+        margin: auto;
+        border-radius: 16px;
+     ">
+                <h3 class="gold-text text-lg mb-2">Employee Status</h3>
+                <canvas id="statusChart" width="420" height="420"></canvas>
+            </div>
+
+
+        </div>
+
+    </div>
+</section>
+
+<!-- SEARCH + FILTERS -->
+<section style="padding: 30px 0;">
+    <div style="max-width: 1200px; margin: auto; padding: 0 30px;">
+
+        <div class="neumo p-5 flex items-center justify-between reveal">
+
+            <div class="flex items-center gap-4">
+                <input id="search" placeholder="Search name, skills, dept..." />
+
+                <div class="select-wrapper">
+                    <select id="filterDept">
+                        <option value="">All Departments</option>
+                        @foreach (var d in Model.Select(x => x.Department).Distinct())
+                        {
+                            <option value="@d">@d</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="select-wrapper">
+                    <select id="filterStatus">
+                        <option value="">Any Status</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                        <option>On Leave</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <a href="/Address/Create" class="btn-gold">Add Employee</a>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- EMPLOYEE CARDS -->
+<!-- EMPLOYEE CARDS -->
+<section style="padding: 40px 0;">
+    <div style="max-width: 1200px; margin: auto; padding: 0 30px;">
+
+        <div style="
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap:28px;
+        ">
+
+            @foreach (var item in Model)
+            {
+                <div class="card reveal card-click"
+                     data-id="@item.Id"
+                     style="cursor:pointer; display:block;">
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-xl bg-black/40 gold-text flex items-center justify-center text-xl">
+                            @{
+                                string initials = new string(
+                                item.FullName.Split(' ')
+                                .Where(s => s.Length > 0)
+                                .Select(s => s[0])
+                                .Take(2)
+                                .ToArray());
+                            }
+                            @initials
+                        </div>
+
+                        <div>
+                            <div class="font-semibold text-lg">@item.FullName</div>
+                            <div class="muted text-sm">@item.Department</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-2 gap-2 muted text-sm">
+                        <div>Phone: @item.Phone</div>
+                        <div>Age: @item.Age</div>
+                        <div>Email: @item.Email</div>
+                        <div>Status: @item.Status</div>
+                    </div>
+
+                    <div class="mt-4 flex justify-between muted text-sm">
+                        <div>@item.Skills</div>
+
+                        <!-- IMPORTANT: Edit must stopPropagation -->
+                        <a href="/Address/Edit/@item.Id"
+                           class="gold-text underline edit-link"
+                           onclick="event.stopPropagation();">
+                            Edit
+                        </a>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+</section>
+
+
+@section Scripts {
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Card click → go to Details page
+        document.querySelectorAll(".card-click").forEach(card => {
+            card.addEventListener("click", () => {
+                const id = card.dataset.id;
+                window.location = `/Address/Details/${id}`;
+            });
+        });
+
+        // Edit link should NOT trigger card click
+        document.querySelectorAll(".edit-link").forEach(link => {
+            link.addEventListener("click", (e) => {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    <script>
+        /* ------------------------ KPI COUNTERS ------------------------- */
+        function animateCounter(el, target) {
+            let start = 0;
+            const duration = 2800; // slower, smoother
+            const startTime = performance.now();
+
+            function update(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 4);
+                el.innerText = Math.floor(eased * target);
+                if (progress < 1) requestAnimationFrame(update);
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        document.querySelectorAll(".counter").forEach(el => {
+            animateCounter(el, parseInt(el.dataset.target));
+        });
+
+        /* ------------------------ DONUT CHARTS ------------------------- */
+        const chartOptions = {
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: "#e6e6e6" } }
+            }
+        };
+
+        const genderData = {
+            labels: ["Male", "Female"],
+            datasets: [{
+                data: [@male, @female],
+                backgroundColor: ["#d4af37", "#777"]
+            }]
+        };
+
+        const statusData = {
+            labels: ["Active", "Inactive", "On Leave"],
+            datasets: [{
+                data: [@statusActive, @statusInactive, @statusLeave],
+                backgroundColor: ["#d4af37", "#777", "#999"]
+            }]
+        };
+
+        new Chart(document.getElementById("genderChart"), {
+            type: 'doughnut',
+            data: genderData,
+            options: chartOptions
+        });
+
+        new Chart(document.getElementById("statusChart"), {
+            type: 'doughnut',
+            data: statusData,
+            options: chartOptions
+        });
+
+        /* ------------------------ SEARCH & FILTER ------------------------- */
+        document.getElementById('search').addEventListener('input', e => {
+            const q = e.target.value.toLowerCase();
+            document.querySelectorAll('.card').forEach(c => {
+                c.style.display = c.innerText.toLowerCase().includes(q) ? "" : "none";
+            });
+        });
+
+        document.getElementById('filterDept').addEventListener('change', e => {
+            const val = e.target.value;
+            document.querySelectorAll('.card').forEach(c => {
+                const dept = c.querySelector('.muted').innerText;
+                c.style.display = val === "" || dept === val ? "" : "none";
+            });
+        });
+
+        document.getElementById('filterStatus').addEventListener('change', e => {
+            const val = e.target.value;
+            document.querySelectorAll('.card').forEach(c => {
+                const status = c.innerText.split("Status:")[1]?.trim().split("\n")[0];
+                c.style.display = val === "" || status === val ? "" : "none";
+            });
+        });
+
+        /* ------------------------ REVEAL ANIMATIONS ------------------------- */
+        gsap.utils.toArray(".reveal").forEach((el, i) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 40,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: i * 0.05,
+                scrollTrigger: { trigger: el, start: "top 85%" }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,235 @@
+﻿@model AddressBookApp.UIW.VM.AddressViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<style>
+    /* Fix flatpickr container position */
+    .flatpickr-calendar {
+        z-index: 999999 !important;
+    }
+
+    /* Dark theme base */
+    .flatpickr-calendar {
+        background: #0f1113 !important;
+        border: 1px solid rgba(212,175,55,0.25) !important;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.6) !important;
+    }
+
+    /* Month-year bar */
+    .flatpickr-months {
+        background: #0f1113 !important;
+        color: #d4af37 !important;
+    }
+
+    /* Month dropdown */
+    .flatpickr-monthDropdown-months {
+        background: #0f1113 !important;
+        color: #e6e6e6 !important;
+        border: 1px solid rgba(212,175,55,0.25) !important;
+    }
+
+        .flatpickr-monthDropdown-months option {
+            background: #0f1113 !important;
+            color: #e6e6e6 !important;
+        }
+
+            .flatpickr-monthDropdown-months option:hover {
+                background: #d4af37 !important;
+                color: #000 !important;
+            }
+
+    /* YEAR FIX (this is what you were missing) */
+    .flatpickr-current-year,
+    .numInput.cur-year {
+        color: #d4af37 !important; /* gold */
+        background: transparent !important;
+        border: none !important;
+        font-weight: 600 !important;
+    }
+
+        /* Remove browser arrows from numeric input */
+        .flatpickr-current-year::-webkit-inner-spin-button,
+        .flatpickr-current-year::-webkit-outer-spin-button,
+        .numInput.cur-year::-webkit-inner-spin-button,
+        .numInput.cur-year::-webkit-outer-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0 !important;
+        }
+
+    /* Weekdays */
+    .flatpickr-weekday {
+        color: #d4af37 !important;
+    }
+
+    /* Days grid */
+    .flatpickr-day {
+        background: transparent !important;
+        color: #e6e6e6 !important;
+    }
+
+        .flatpickr-day:hover {
+            background: #d4af37 !important;
+            color: #000 !important;
+        }
+
+        .flatpickr-day.selected {
+            background: #d4af37 !important;
+            color: #000 !important;
+        }
+
+    /* Navigation arrows */
+    .flatpickr-prev-month svg,
+    .flatpickr-next-month svg {
+        fill: #d4af37 !important;
+    }
+
+    .flatpickr-prev-month:hover svg,
+    .flatpickr-next-month:hover svg {
+        fill: #ff4444 !important; /* red hover */
+    }
+
+    /* Calendar icon inside field */
+    .date-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #d4af37;
+        pointer-events: none;
+        font-size: 18px;
+    }
+</style>
+
+
+<div class="max-w-4xl mx-auto px-6 pt-20 pb-10 reveal">
+
+    <div class="neumo p-8 reveal">
+
+        <h2 class="text-2xl font-bold gold-text mb-4 reveal">
+            Add New Employee
+        </h2>
+
+        <form asp-action="Create" method="post"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="reveal">
+                <label class="block muted mb-1">Full Name</label>
+                <input asp-for="FullName" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Phone</label>
+                <input asp-for="Phone" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Email</label>
+                <input asp-for="Email" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Gender</label>
+                <select asp-for="Gender" class="w-full bg-transparent border rounded px-3 py-2">
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">DOB</label>
+
+                <div class="relative">
+                    <input asp-for="DOB"
+                           id="dobInput"
+                           class="w-full bg-transparent border rounded px-3 py-2 pr-10 text-gray-200" />
+
+                    <span class="date-icon">📅</span>
+                </div>
+            </div>
+
+
+            <div class="reveal">
+                <label class="block muted mb-1">Address</label>
+                <input asp-for="Address" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">City</label>
+                <input asp-for="City" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Pincode</label>
+                <input asp-for="Pincode" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Department</label>
+                <input asp-for="Department" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Status</label>
+                <select asp-for="Status" class="w-full bg-transparent border rounded px-3 py-2">
+                    <option value="">Select</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                    <option>On Leave</option>
+                </select>
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Skills</label>
+                <input asp-for="Skills" class="w-full bg-transparent border rounded px-3 py-2" />
+            </div>
+
+            <div class="reveal">
+                <label class="block muted mb-1">Marital Status</label>
+                <select asp-for="MaritalStatus" class="w-full bg-transparent border rounded px-3 py-2">
+                    <option value="">Select</option>
+                    <option>Single</option>
+                    <option>Married</option>
+                    <option>Divorced</option>
+                </select>
+            </div>
+
+            <div class="md:col-span-2 flex items-center space-x-3 mt-4 reveal">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn-gold">Save</button>
+                <a asp-action="Index" class="ml-3 muted">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        flatpickr("#dobInput", {
+            dateFormat: "Y-m-d",
+            defaultDate: "today",
+            allowInput: true,
+            position: "auto bottom"
+        });
+
+        gsap.utils.toArray(".reveal").forEach((el, i) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 35,
+                duration: 0.7,
+                ease: "power3.out",
+                delay: i * 0.05
+            });
+        });
+    </script>
+}
+

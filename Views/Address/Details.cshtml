@@ -1,0 +1,93 @@
+﻿@model AddressBookApp.UIW.VM.AddressViewModel
+@{
+    ViewData["Title"] = "Detail Section";
+}
+<section class="min-h-screen px-6 py-16 bg-gray-950 text-white">
+    <div class="max-w-3xl mx-auto neumo p-8 rounded-2xl">
+
+        <!-- Header -->
+        <div class="mb-6 pb-3 border-b border-gray-700/60">
+            <h1 class="text-3xl font-bold gold-text">@Model.FullName</h1>
+            <p class="text-gray-400 text-sm mt-1">Employee Details</p>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="grid grid-cols-2 gap-x-10 gap-y-5">
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">FULL NAME</h4>
+                <p class="font-medium">@Model.FullName</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">PHONE</h4>
+                <p class="font-medium">@Model.Phone</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">EMAIL</h4>
+                <p class="font-medium">@Model.Email</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">GENDER</h4>
+                <p class="font-medium">@Model.Gender</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">DEPARTMENT</h4>
+                <p class="font-medium">@Model.Department</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">STATUS</h4>
+                <p class="font-medium">@Model.Status</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">SKILLS</h4>
+                <p class="font-medium">@Model.Skills</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">DATE OF BIRTH</h4>
+                <p class="font-medium">@Model.DOB.ToShortDateString()</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">AGE</h4>
+                <p class="font-medium">@Model.Age</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">CITY</h4>
+                <p class="font-medium">@Model.City</p>
+            </div>
+
+            <div>
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">PINCODE</h4>
+                <p class="font-medium">@Model.Pincode</p>
+            </div>
+
+            <div class="col-span-2">
+                <h4 class="text-xs tracking-wider mb-0.5 text-gray-500">ADDRESS</h4>
+                <p class="font-medium leading-relaxed">@Model.Address</p>
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-8 flex gap-3">
+            <a href="/Address/Edit/@Model.Id"
+               class="btn-gold px-4 py-2 text-sm rounded-lg">
+                Edit
+            </a>
+
+            <a href="/Address"
+               class="px-4 py-2 text-sm rounded-lg bg-gray-800 hover:bg-gray-700 transition">
+                Back
+            </a>
+        </div>
+
+    </div>
+</section>
